@@ -158,6 +158,9 @@ import { mapState, mapMutations } from 'vuex';
 						// this.list_Messages= this.opData()
 					},
 					fail:(e)=>{
+						this.list_Messages[0].vote = 0
+						this.list_Messages[1].vote = 0
+						this.list_Messages[2].vote = 0
 						uni.showToast({
 							title: e,
 							duration: 1000,

@@ -15,14 +15,14 @@ import { mapState, mapMutations } from 'vuex';
 				loadingText: '',
 				userInfo:{},
 				list_Messages: [
-				{
-					subject:'消息推送',
-					time:'11:10',
-					smallTitle:'xxxxx',
-					vote:'0',
-					icon:'/static/msg/images/msg_icon_40.jpg',
+				// {
+				// 	subject:'消息推送',
+				// 	time:'11:10',
+				// 	smallTitle:'xxxxx',
+				// 	vote:'0',
+				// 	icon:'/static/msg/images/msg_icon_40.jpg',
 				
-				},
+				// },
 				],
 				
 			
