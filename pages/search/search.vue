@@ -41,15 +41,18 @@ export default {
 				'color':'#39CCCC',
 			},
 			title:'',
-			type:''
+			type:'',
+			platform:''
 		}
 	},
 	onLoad(e) {
 		if(e){
+			console.log(e)
 			// 替换搜索框内容
 			this.placeholder =!e.title?'请输入关键词':'请搜索与'+e.title+'相关内容'
 			this.title = !e.title ?'搜索':e.title
 			this.type = e.type
+			this.platform = e.platform
 		}
 	},
 	methods:{
@@ -68,8 +71,9 @@ export default {
 				this.s(tag)
 		},
 		s(tag){
+			console.log('platfomr',this.platform)
 			uni.navigateTo({
-				url:'/pages/bbx-type-info/bbx-type-info?type=' + this.type+'&title='+this.title+'&keyword='+tag
+				url:'/pages/bbx-type-info/bbx-type-info?type=' + this.type+'&title='+this.title+'&keyword='+tag+'&platform='+this.platform
 			});  
 		}
 		

@@ -3,17 +3,22 @@
 
 
 	// 定义全局参数,控制数据加载
-	var _self, page = 1,timer = null;
-
+var _self, page = 1,timer = null;
+import { mapState, mapMutations } from 'vuex';
 	export default {
+		computed:{
+		 	...mapState(['paperList']),
+		},
 		data() {
 			return {
+				title:'消息通知',
 				loadingText: '',
+				userInfo:{},
 				list_Messages: [
 				{
-					subject:'推送助手官方',
+					subject:'消息推送',
 					time:'11:10',
-					smallTitle:'16岁少女检测2次呈阴性突然发病去世',
+					smallTitle:'xxxxx',
 					vote:'0',
 					icon:'/static/msg/images/msg_icon_40.jpg',
 				
@@ -21,19 +26,34 @@
 				],
 				
 			
- 
+				
 				page:0,//当前分页页码
 				apiUrl:'',//后端接口地址
 				id:'',//传值使用,方便存在本地的locakStorage  
-				del_id:''//方便存在本地的locakStorage  
+				del_id:'',//方便存在本地的locakStorage 
+				offset:0,
+				limit:9,
+				platform_id:1,
+				pusher_type :1	,
+				type:'bbx'
 			}
 		},
 		components:{
 
 		},
+		
 		onLoad(options) {
 			_self = this;
-			
+			let user = {}
+			uni.getStorage({
+			    key: 'user',
+			    success: function (res) {
+			       user =  JSON.parse(JSON.stringify(res.data))
+			    }
+			});
+			this.userInfo=user
+			// this.$store.commit('clearPL')
+			// this.getPages()
 			//检查是否登录参考代码,需要用的时候，可以把注释取掉
 			//if(this.checkLogin()==false){
 			//	return;
@@ -44,29 +64,93 @@
 			this.page=0;
 
 			//检测有没有传入id参数
-			if (options.id != null && options.id !=""){
-				this.id=options.id;
+			if (options != null && options !=""){
+				this.type = options.type
 			}   
 			//执行初始化,需要用的时候，可以把注释取掉
 			//this.Refresh("init");
 
 		},
 		onShow() {
+			if(this.type=='bbx'){
+				this.platform_id=1
+			}
+			if(this.type=='snfw'){
+				this.platform_id=2
+			}
+			if(this.type=='cwt'){
+				this.platform_id=3
+			}
 			console.log("on show");
 			//if(this.checkLogin()==false){
 			//	return;
 			//}
-
+			this.$store.commit('clearPL')	
 			//执行初始化,需要用的时候，可以把注释取掉
 			//this.Refresh("init");
+			this.offset=0
+			this.limit=9
+			// this.platform_id=1
+			// this.pusher_type=1
+			this.getData()
 		},
 		onPullDownRefresh: function() {
 			//下拉刷新的时候请求一次数据
 			this.Refresh();
 		},
+		onReachBottom(){
+			console.log('pull')
+			this.offset +=9
+			this.getData()
+		},
 		methods: {
+			opData(){
+				let datalist = this.paperList,res=[]
+				for(let i =0;i<datalist.length;i++){
+					let obj={}
+					obj.subject = datalist[i].pusher_type==1?'文章评论通知':'文章回复通知',
+					obj.time = datalist[i].created_at.split('T').pop()
+					obj.smallTitle = datalist[i].pushe_content
+					obj.vote=datalist[i].status
+					obj.icon ='/static/msg/images/msg_icon_40.jpg'
+					obj.url = datalist[i].target_url
+					obj.msg_id = datalist[i].msg_id
+					res.push(obj)
+				}
+				console.log('res',res)
+				return res
+			},
 			getData(){
+				console.log('plat',this.platform_id)
+				let httpData = {
+					offset:this.offset,
+					limit:this.limit,
+					platform_id:this.platform_id,
+					// pusher_type:this.pusher_type
+				}
 				
+				uni.request({
+					url:'/api/pusher/get_type_msg',
+					withCredentials:true,
+					header:{
+						'Xj-Token':this.userInfo.session
+					},
+					method:'POST',
+					data:httpData,
+					
+					success: (res) => {
+						// console.log()
+						this.$store.commit('setPaperList',res.data.data.msgs)
+						this.list_Messages= this.opData()
+					},
+					fail:(e)=>{
+						uni.showToast({
+							title: e,
+							duration: 1000,
+						})
+					}
+					
+				})
 			},
 			/**
 			* icon_4处理函数
@@ -74,7 +158,10 @@
 			* 数据取值  var index = e.currentTarget.dataset.index; var cata = this.list_cata_list[index];
 			*/
 			icon_4_click:function(event){
-			
+				// this.$store.commit('clearPL')
+				// this.offset = 0
+				// this.pusher_type=1
+				// this.getData()
 			},
 			
 			/**
@@ -83,15 +170,48 @@
 			* 数据取值  var index = e.currentTarget.dataset.index; var cata = this.list_cata_list[index];
 			*/
 			icon_5_click:function(event){
+				// this.$store.commit('clearPL')
+				// this.offset = 0
+				// this.pusher_type=2
+				// this.getData()
 			
 			},
-			
+			icon_66_click(){
+				console.log('一键阅读')
+				uni.request({
+					url:'/api/pusher/set_readable_types',
+					withCredentials:true,
+					header:{
+						'Xj-Token':this.userInfo.session
+					},
+					method:'POST',
+					data:{
+						platform_id:this.platform_id
+					},
+					
+					success: (res) => {
+						// console.log()
+						console.log('访问未知消息成功')
+						this.list_Messages.forEach((e)=>{
+							e.vote=1
+						})
+					},
+					fail:(e)=>{
+						uni.showToast({
+							title: e,
+							duration: 1000,
+						})
+					}
+					
+				})	
+			},
 			/**
 			* icon_6处理函数
 			* 数据绑定  data-index="{{index}}" 
 			* 数据取值  var index = e.currentTarget.dataset.index; var cata = this.list_cata_list[index];
 			*/
 			icon_6_click:function(event){
+				console.log(6)
 			
 			},
 			
@@ -103,14 +223,74 @@
 			msg_17_17_click:function(event){
 			
 			},
-			
+			icon_44_click(event,index){
+				var ev = event || window.event;
+				  if(ev && ev.stopPropagation) {
+				    //非IE浏览器
+				    ev.stopPropagation();
+				  } else {
+				    //IE浏览器(IE11以下)
+				    ev.cancelBubble = true;
+				  }
+				this.list_Messages[index].vote=1
+				uni.request({
+					url:'/api/pusher/set_readable_single',
+					withCredentials:true,
+					header:{
+						'Xj-Token':this.userInfo.session
+					},
+					method:'POST',
+					data:{
+						msg_id:event.msg_id
+					},
+					
+					success: (res) => {
+						// console.log()
+						console.log('访问未知消息成功')
+					},
+					fail:(e)=>{
+						uni.showToast({
+							title: e,
+							duration: 1000,
+						})
+					}
+					
+				})
+			},
 			/**
 			* icon_40处理函数
 			* 数据绑定  data-index="{{index}}" 
 			* 数据取值  var index = e.currentTarget.dataset.index; var cata = this.list_cata_list[index];
 			*/
 			icon_40_click:function(event){
-			
+				// console.log(event.url.split('?')[1].split('=')[1])
+				console.log(event)
+				uni.request({
+					url:'/api/pusher/set_readable_single',
+					withCredentials:true,
+					header:{
+						'Xj-Token':this.userInfo.session
+					},
+					method:'POST',
+					data:{
+						msg_id:event.msg_id
+					},
+					
+					success: (res) => {
+						// console.log()
+						console.log('访问未知消息成功')
+					},
+					fail:(e)=>{
+						uni.showToast({
+							title: e,
+							duration: 1000,
+						})
+					}
+					
+				})
+				uni.navigateTo({
+					url:'/pages/details/details?id='+event.url.split('?')[1].split('=')[1]
+				})
 			},
 			
 			
@@ -155,7 +335,7 @@
 
 					}
 
-{deal_listpages}
+// {deal_listpages}
 
 					that.subject=tmp.subject;
 					that.smallTitle=tmp.smallTitle;

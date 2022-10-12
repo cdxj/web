@@ -34,10 +34,10 @@
 						<!-- 父评论体-start -->
 						<view class="comment-main-top">
 							<view class="nick-name-box">
-								<view class="comLogo com1" v-if="index == 0">沙发</view>
-								<view class="comLogo com2" v-if="index == 1">板凳</view>
-								<view class="comLogo com3" v-if="index == 2">地板</view>
-								<view class="comLogo com4" v-if="index > 2">{{index + 1}}楼</view>
+								<!-- <view class="comLogo com1" v-if="index == 0">沙发</view> -->
+								<view class="comLogo com2" v-if="item.is_doc_creator == true">作者</view>
+								<!-- <view class="comLogo com3" v-if="index == 2">地板</view> -->
+								<view class="comLogo com4" v-if="item.is_doc_creator==false">{{index + 1}}楼</view>
 								<view class="nick-name">{{item.nickName}}</view>
 							</view>
 							<!-- <view class="zan-box" @click="like(item.id)">
@@ -72,14 +72,22 @@
 								</view>
 								<view class="comment-main">
 									<view class="sub-comment-main-top">
-										<view class="nick-name">{{each.nickName}}</view>
-										<view class="zan-box" @click="like(each.id)">
+										<view v-if="each.is_doc_creator == true">
+											<view class="comLogo com2"  style="float: left;">作者</view>
+											<view class="nick-name" style="position: absolute;left: 160px;">{{each.nickName}}</view>
+										</view>
+										<view v-else>
+											<view class="nick-name" >{{each.nickName}}</view>
+										</view>
+										<!-- <view class="comLogo com3" v-if="index == 2">地板</view> -->
+										<!-- <view class="comLogo com4" v-if="item.is_doc_creator==false">{{index + 1}}楼</view> -->
+										<!-- <view class="zan-box" @click="like(each.id)">
 											<span :class="each.hasLike ? 'isLike' : 'notLike'">{{each.likeNum == 0 ? '抢首赞' : each.likeNum}}</span>
 											<img style="width: 14px; height: 14px;" v-if="!each.hasLike"
 												src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAApVJREFUWEfFlz9oFEEUxr93SWEhFkIaBUljo4WgATEaiI0GwVLBQg2EzLd3hSBqLI2lRgWLY+ftSSQgggoWNv5pImLUwjQBg1goqCCIIBqwueSeTLg7Ln9Mcmdub7vdnZnvN9+8fe+toMWXtFgfDQGMjo52zM7OHgMwIyLTg4ODk41upG4A7/0OEbkPYGdFVEQuOOeuNQJRN4CqBvGw+3dm9kZEBsrCPSRf1gvRCIAFETPrjqLodZIkY2Z2SkQmnHMHUgMgOQ8fx3FvJpMZB/CDZEfqACEgi8XidwA/SW5uKkCN2AzJTYscmCTZ1VQA7/2AiNwSkefOuYNBLEmSnJnlATwgebypAKr6CMBRANdJng9i3vu8iORE5Mrc3NyTlQDM7HMul/tYO2bNX0GhUDhRKpXumtlvAPuiKJouOzBuZr117HyBU6sCqOpeAH0AhssiwyQvVwTjOO5va2s7vRaAGtCrJC+GOVUAVb1UTjDVDLd4URHJOuf8WsSWG5MkSbeZTYR3lc+4CpAkyUpWht3fI/m+UfEwL5/Pb2xvb59ZFkBV5zNchazsSBBeYPn/ABQKhZ5SqfQCwBTJXYuPoOkAqnoGwE0Ad0ieTB3Ae39bRPoBDJEcSR1AVd8C2CMifc65p6kCmJkkSfIHwAYAW0h+SxVAVXcDmDSzL1EUbasEc20eaGoQVuoIgMckj6QOoKo3AJwFMEJyqBUAIegOAegnOdYKgK8AtmYyma7aLjqVGPDebxeRDwB+AeggWUzVAVV1ABTAK5L7l+0HVPUTgM7Q7VQGhPJZe99oHagpw4dJPvsXQPixONeoyErzRGTKzB7W9hFLjiA8iOO4M7iw3hDZbLbq6pIeY73F6l1v1Zas3gXrHf8XhhNvMGSmtPYAAAAASUVORK5CYII=" />
 											<img style="width: 14px; height: 14px;" v-else
 												src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAYAAABzenr0AAAAAXNSR0IArs4c6QAAAfVJREFUWEfFl79LHEEUx7/vclr4g51TLFQQW9FNDFhFBDvjtcF0gXSp5eYuWJlUAW9NIP9BIFUEOxFtTKF2FrezKFgkkEBS3h4SAtHbJ6vu5W5d1F3cm20WZt+b7+e9mTfzlqD5Ic36SATw+OPJQP2ft+ABJwQ+VFIcJA0kEYBpVfcAehKIMqHoFISVBCI2wOS76mi9g76HxTLwZiqybzcuRGwAc7WWB/NGWIhBu440ZlIHmFitLRPzm+tC9EtJY1gjAP9VMtelEQC2kuJR6gCm5X4BsBAWImDdluJZqgBjH/4MZr3TYzB6IoRWmHnzJgDK0g+1KL4128SqgnD9x432yn5NSfE88L0VYPx9rS/jYR6EJTCPJxQNu60oKV77gw2Ai/Ly1/ZKRElx8c20XL4n0ZZpgvkbAKbl7gCYDax0ALREmjJAo2SbM9A+AKLPqmC8aNkD4bVOMwPEKNlFUdYGkAE9rUhjSxvA2YOOoaPF7t+6AH4qKUauHURt3AObSoq8NgAGyo4UJW0ABH5py9wnbQAAppq76HYfRLXOXmPg4BWdasoA7yuZm47sB0zL9Vvt0TQvI/bqc06pfzsS4KHlWgwUUgKwmWjdKRhvI1q5/0P+T8dZ9jILTjH31X9PlKuNKzppXxDMFeV/a0eUVPSuftoBzgHKR/ohZwAugwAAAABJRU5ErkJggg==" />
-										</view>
+										</view> -->
 									</view>
 									<view class="comment-main-content">
 										{{each.content.length > 60 ? each.content.slice(0, 59) : each.content}}

@@ -1,5 +1,5 @@
 <template>
-    <ir-tabs :curr="cur"  :navs="navs" @navChange='change'  navBgColor='#ff570a'  :multiple="true">
+    <ir-tabs :curr="cur"  :navs="navs" @navChange='change'  navBgColor='#ffef34'  :multiple="true">
         <template v-slot:page1>
             <view>
 				<u-list
@@ -134,7 +134,7 @@ import { mapState, mapMutations } from 'vuex';
 				  } else {
 				    //IE浏览器(IE11以下)
 				    ev.cancelBubble = true;
-				  }i
+				  }
 				  if(this.userInfo.session==null){
 				  	uni.showToast({
 				  		title: "请先登录",
@@ -231,7 +231,8 @@ import { mapState, mapMutations } from 'vuex';
 					user_id :this.userInfo.userId,
 					offset:this.pageSize*this.limit,
 					limit:this.limit,
-					order:'desc'
+					order:'desc',
+					platform_id :2
 				}
 				
 				uni.request({
@@ -274,7 +275,8 @@ import { mapState, mapMutations } from 'vuex';
 					user_id :this.userInfo.userId,
 					offset:this.pageSize*this.limit,
 					limit:this.limit,
-					order:'desc'
+					order:'desc',
+					platform_id:2
 				}
 				
 				uni.request({

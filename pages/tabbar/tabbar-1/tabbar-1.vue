@@ -22,7 +22,7 @@
  						<!-- 						   -->
  				</view>	
  			</view>
- 			<view style="margin-left: 65px;" class="input">
+ 			<view style="margin-left: 65px;width:550px" class="input">
  				<view class="icon search"></view>
  				<input placeholder="热点新闻" @tap="toSearch()" />
  			</view>
@@ -32,7 +32,7 @@
  			</view> -->
  			<view class="menu">
  				<!-- <image mode="widthFix" src="/static/HM-shophome/face.png"></image> -->
-				<u-icon name="edit-pen-fill" @click="edit" color="#e4d002" size="54"></u-icon>
+				<!-- <u-icon name="edit-pen-fill" @click="edit" color="#e4d002" size="54"></u-icon> -->
  			</view>
  		</view>
  		<!-- 占位 -->
@@ -106,50 +106,41 @@ import { mapState, mapMutations } from 'vuex';
 			list1: [{
 				name: '推荐',
 			},{
-				name: '租房租地',
+				name: '农技农资',
 			}, {
-				name: '生态农品',
+				name: '就业供需',
 			}, {
-				name: '亲子农旅'
+				name: '乡村趣事'
 			}, {
-				name: '民宿民居'
+				name: '农业资讯'
 			}, {
-				name: '农村美食'
-			}, {
-				name: '农村投资'
-			}, {
-				name: '定点帮扶'
-			}, {
-				name: '名优特新'
+				name: '本地服务'
 			}],
 			value: 0,
 			ishide:false,
 			range: [],
  			//轮播
  			swiperList:[
- 				{sid:0,src:'自定义src0',img:'/static/HM-shophome/swiper-img/3.jpg'},
- 				{sid:1,src:'自定义src1',img:'/static/HM-shophome/swiper-img/1.jpg'},
- 				{sid:2,src:'自定义src2',img:'/static/HM-shophome/swiper-img/2.jpg'},
- 				{sid:3,src:'自定义src3',img:'/static/HM-shophome/swiper-img/3.jpg'}
+ 				{sid:0,src:'自定义src0',img:'/static/sn/sn1.jpg'},
+ 				{sid:1,src:'自定义src1',img:'/static/sn/sn2.jpg'},
+ 				{sid:2,src:'自定义src2',img:'/static/sn/sn3.jpg'},
+ 				{sid:3,src:'自定义src3',img:'/static/sn/sn4.jpg'}
  			],
  			//分类
  			categoryList: [
  				[//第一页
- 					{ cat_id: 6, img: '/static/HM-shophome/category-img/0.png', title: '租房租地' },
- 					{ cat_id: 7, img: '/static/HM-shophome/category-img/1.png', title: '生态农品' },
- 					{ cat_id: 8, img: '/static/HM-shophome/category-img/2.png', title: '亲子农旅' },
- 					{ cat_id: 9, img: '/static/HM-shophome/category-img/3.png', title: '民宿民居' },
- 					{ cat_id: 10, img: '/static/HM-shophome/category-img/3.png', title: '农村美食' },
- 					{ cat_id: 11, img: '/static/HM-shophome/category-img/4.png', title: '农村投资' },
- 					{ cat_id: 12, img: '/static/HM-shophome/category-img/5.png', title: '定点帮扶' },
- 					{ cat_id: 13, img: '/static/HM-shophome/category-img/6.png', title: '名优特新' },
+ 					{ cat_id: 14, img: '/static/HM-shophome/category-img/0.png', title: '农技农资' },
+ 					{ cat_id: 15, img: '/static/HM-shophome/category-img/1.png', title: '就业供需' },
+ 					{ cat_id: 16, img: '/static/HM-shophome/category-img/2.png', title: '乡村趣事' },
+ 					{ cat_id: 17, img: '/static/HM-shophome/category-img/3.png', title: '农业资讯' },
+ 					{ cat_id: 18, img: '/static/HM-shophome/category-img/5.png', title: '本地服务' },
  				]
  			],
  			//猜你喜欢列表
- 			categoryHeight: '160px',
+ 			categoryHeight: '80px',
  			currentPageindex: 0,
  			headerPosition:"fixed",
- 			loadingText:"正在加载...",
+ 			loadingText:"全部加载...",
 			type:0,
 			tabClick: false, 
 			userInfo:{}
@@ -272,7 +263,7 @@ import { mapState, mapMutations } from 'vuex';
 			console.log('item',item)
 			let index = 0
 			if(item.index!=0){
-				index = item.index+5
+				index = item.index+13
 			}
 			this.type =index
 			this.$store.commit('clearPL')
@@ -283,7 +274,8 @@ import { mapState, mapMutations } from 'vuex';
 			console.log(2)
 			let httpData = {
 				nums:4,
-				type:this.type
+				type:this.type,
+				platform_id :2
 			}
 			uni.request({
 				url:'/api/part/listpart',
@@ -331,7 +323,7 @@ import { mapState, mapMutations } from 'vuex';
 			console.log('o')
  			// uni.switchTab({url: `../../search/search`})
 			uni.navigateTo({
-				url: '../../search/search',
+				url: '../../search/search?platform='+'snfw',
 				fail (error) {
 				        console.log(error)
 				    }
@@ -345,7 +337,7 @@ import { mapState, mapMutations } from 'vuex';
  		toCategory(e){
 			this.$store.commit('clearPL')
 			if(e.cat_id!=0){
-				this.tabs=e.cat_id-5
+				this.tabs=e.cat_id-13
 				uni.showToast({title: e.title+'Loading...'});
 				this.type = e.cat_id
 				// this.getPages()
@@ -414,7 +406,7 @@ import { mapState, mapMutations } from 'vuex';
  	/*  #ifdef  APP-PLUS  */
  	height: var(--status-bar-height);
  	/*  #endif  */
- 	background-color: #ff570a;
+ 	background-color: #ffef34;
  	position: fixed;
  	top: 0;
  	z-index: 999;
@@ -422,7 +414,7 @@ import { mapState, mapMutations } from 'vuex';
  .header {
  	width: 100%;
  	height: 100upx;
- 	background-color: #ff570a;
+ 	background-color: #ffef34;
  	display: flex;
  	position: fixed;
  	top: 0;
@@ -486,7 +478,7 @@ import { mapState, mapMutations } from 'vuex';
  	/*  #ifdef  APP-PLUS  */
  	margin-top: var(--status-bar-height);
  	/*  #endif  */
- 	background-color: #ff570a;
+ 	background-color: #ffef34;
  	height: 100upx;
  }
  .swiper-view {
@@ -502,7 +494,7 @@ import { mapState, mapMutations } from 'vuex';
  		width: 100%;
  		height: 30upx;
  		border-radius: 100% 100% 0 0;
- 		background-color: #ff570a;
+ 		background-color: #f8f9f9;
  		margin-top: -15upx;
  		position: absolute;
  	}
@@ -510,7 +502,7 @@ import { mapState, mapMutations } from 'vuex';
  .category {
  	width: 95%;
  	padding: 2.5vw 2.5vw;
- 	background-color: #ff570a;
+ 	background-color: #fffbe5;
  	.box {
  		width: 100%;
  		border-radius: 20upx;
@@ -525,7 +517,7 @@ import { mapState, mapMutations } from 'vuex';
  				height: 5upx;
  				background-color: rgba(0, 0, 0, 0.2);
  				&.active {
- 					background-color: #ff570a;
+ 					background-color: #fffbe5;
  				}
  			}
  		}
@@ -566,7 +558,7 @@ import { mapState, mapMutations } from 'vuex';
  .pick{
  	width: 95%;
  	padding: 0 2.5vw 2.5vw 2.5vw;
- 	background: linear-gradient(to bottom, #ff570a 0%,#ffffff 105%);
+ 	background: linear-gradient(to bottom, #fffbe5 0%,#ffffff 105%);
  	.box{
  		width: 100%;
  		border-radius: 20upx;

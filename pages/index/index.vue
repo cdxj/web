@@ -161,14 +161,17 @@
 			},
 			simulation() {
 				console.log('to 三农')
-				uni.navigateTo({
-					url: '/pages/xiangjian/xiangjian'
+				uni.switchTab({
+					url: '../tabbar/tabbar-1/tabbar-1',
+					fail (error) {
+					        console.log(error)
+					    }
 				})
 			},
 			record() {
 				console.log('to 百宝乡')
-				uni.switchTab({
-					url: '../tabbar/tabbar-1/tabbar-1',
+				uni.navigateTo({
+					url: '/pages/tabbar/tabbar-1/tabbar-1',
 					fail (error) {
 					        console.log(error)
 					    }

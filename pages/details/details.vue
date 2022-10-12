@@ -201,6 +201,7 @@ export default {
 				tmp.createTime = arr[i].created_at
 				tmp.reply_user_id = arr[i].reply_user_id
 				tmp.discuss_user_id = arr[i].discuss_user_id
+				tmp.is_doc_creator = arr[i].is_doc_creator
 				if(arr[i].children_discuss.length>0){
 					tmp.children = []
 					let child = arr[i].children_discuss
@@ -217,6 +218,7 @@ export default {
 						t.content = child[j].discuss_content
 						t.reply_user_id = child[j].reply_user_id
 						t.discuss_user_id = child[j].discuss_user_id
+						t.is_doc_creator = child[j].is_doc_creator
 						tmp.children.push(t)
 						t = {}
 					}
@@ -243,6 +245,7 @@ export default {
 				success: (res) => {
 					this.paper = res.data.data
 					console.log(this.paper)
+					this.commentData.readNumer = this.paper.read_num
 					this.showPageLoading=false
 				}
 			})
@@ -254,7 +257,7 @@ export default {
 					this.discussions = res.data.data.discuss
 					this.commentData.comment = this.getTree(res.data.data.discuss)
 					this.commentData.commentSize = this.commentData.comment.length |0
-					this.commentData.readNumer = this.commentData.commentSize |0
+					// this.commentData.readNumer = this.commentData.commentSize |0
 					console.log(this.commentData)
 					this.$forceUpdate()
 					this.showPageLoading=false

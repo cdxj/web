@@ -1,4 +1,7 @@
 //本页面由uniapp切片工具生成，uni-app切片-可视化设计工具(一套代码编译到7个平台iOS、Android、H5、小程序)，软件下载地址：http://www.ymznkf.com/new_view_669.htm
+.content {
+	   overflow:hidden
+   }
 button::after {border: none;width: auto;}
 input{outline: none;border: none;list-style: none;width: auto;}
 .list_item{float: left;}
@@ -20,7 +23,7 @@ input{outline: none;border: none;list-style: none;width: auto;}
  .msg_16 .msg_2 .msg_14{white-space:normal;width:133upx;height:176upx;padding:0upx;margin-top:13upx;margin-left:97upx;float:left;text-align:left; border-radius:0upx;font-size:8upx;}
  .msg_16 .msg_2 .msg_14 .icon{white-space:normal;width:91upx;height:92upx;padding:0upx;clear:both;margin-top:21upx;margin-left:23upx;float:left;text-align:left; border-radius:0upx;font-size:8upx; line-height:92upx;}
  .msg_16 .msg_2 .msg_14 .word{white-space:normal;width:70upx;height:31upx;padding:0upx;clear:both;margin-top:9upx;margin-left:34upx;float:left;background-color:#ffffff;text-align:center;justify-content:center; border-radius:0upx; color:#000000;font-size:25upx; line-height:31upx;}
- .msg_16 .Messages{white-space:normal;width:749upx;min-height:979upx;padding:0upx;clear:both;margin-top:14upx;margin-left:0upx;float:left;background-color:#ffffff;text-align:left; border-radius:0upx;font-size:8upx;}
+ .msg_16 .Messages{white-space:normal;width:749upx;min-height:1231upx;padding:0upx;clear:both;margin-top:14upx;margin-left:0upx;float:left;background-color:#ffffff;text-align:left; border-radius:0upx;font-size:8upx;}
  .msg_16 .Messages .row{white-space:normal;width:724upx;height:138upx;padding:0upx;margin-top:20upx;margin-left:13upx;float:left;text-align:left; border-radius:0upx;font-size:8upx;}
  .msg_16 .Messages .row .icon{white-space:normal;width:104upx;height:104upx;padding:0upx;margin-top:15upx;margin-left:8upx;float:left;text-align:left; border-radius:75upx;font-size:8upx; line-height:104upx;}
  .msg_16 .Messages .row .msg_41{white-space:normal;width:586upx;height:93upx;padding:0upx;margin-top:23upx;margin-left:15upx;float:left;text-align:left; border-radius:0upx;font-size:8upx;}
@@ -29,4 +32,4 @@ input{outline: none;border: none;list-style: none;width: auto;}
  .msg_16 .Messages .row .msg_41 .msg_42 .time{white-space:normal;width:131upx;height:20upx;padding:0upx;margin-top:9upx;margin-left:41upx;float:left;background-color:#ffffff;text-align:right; border-radius:0upx; color:#c8c8c8;font-size:17upx; line-height:20upx;}
  .msg_16 .Messages .row .msg_41 .msg_43{white-space:normal;width:584upx;height:40upx;padding:0upx;clear:both;margin-top:4upx;margin-left:2upx;float:left;text-align:left; border-radius:0upx;font-size:38upx; line-height:40upx;}
  .msg_16 .Messages .row .msg_41 .msg_43 .smallTitle{white-space:normal;width:490upx;height:26upx;padding:0upx;margin-top:3upx;margin-left:4upx;float:left;background-color:#ffffff;text-align:left; border-radius:0upx; color:#c8c8c8;font-size:25upx; line-height:26upx;}
- .msg_16 .Messages .row .msg_41 .msg_43 .vote{white-space:normal;width:43upx;height:31upx;padding:0upx;margin-top:4upx;margin-left:42upx;float:left;background-color:#f84336;text-align:center;justify-content:center; border-radius:10upx; color:#ffffff;font-size:24upx; line-height:31upx;}
+ .msg_16 .Messages .row .msg_41 .msg_43 .vote{white-space:normal;width:20upx;height:20upx;padding:0upx;margin-top:4upx;margin-left:42upx;float:left;background-color:#f84336;text-align:center;justify-content:center; border-radius:10upx; color:#ffffff;font-size:24upx; line-height:31upx;}

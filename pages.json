@@ -145,6 +145,18 @@
             }
             
         }
+        ,{
+            "path" : "pages/tabbar/tabbar-4/index/index",
+            "style" :
+            {
+                "navigationBarTitleText": "",
+            	 "navigationStyle":"custom",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+		
+		
     ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
@@ -189,10 +201,15 @@
 			},
 			//#endif
 			{
-				"pagePath": "pages/tabbar/tabbar-4/tabbar-4",
+				"pagePath": "pages/tabbar/tabbar-4/index/index",
 				"iconPath": "static/img/tabbar/news.png",
 				"selectedIconPath": "static/img/tabbar/newsactive.png",
-				"text": "消息"
+				"text": "消息",
+				"style": {
+					 "navigationStyle":"custom",
+					"enablePullDownRefresh": false,
+					"onReachBottomDistance": 50
+				}
 			},
 			{
 				"pagePath": "pages/tabbar/tabbar-5/tabbar-5",
@@ -202,4 +219,5 @@
 			}
 		]
 	}
+
 }

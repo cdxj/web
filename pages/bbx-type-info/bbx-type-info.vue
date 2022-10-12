@@ -23,6 +23,7 @@
 			<navigator class="item" hover-class="none" :url="'/pages/details/details?id=' + item.docid">
 				<u-cell
 					:title=item.doctitle
+					size="max"
 				>
 					<u-avatar
 						slot="icon"
@@ -34,7 +35,18 @@
 				</u-cell>
 				<view>
 					<view class="info">
-						<view class="price" style="margin-left: 90px;"><u-icon v-if="item.is_collect==1"  name="heart-fill" color="red" size="28"></u-icon><u-icon v-else  name="heart"  size="28"></u-icon></view>
+						<view class="price" style="margin-left: 80px;">
+							<u-icon v-if="item.is_collect==1"  name="heart-fill" color="red" size="28"></u-icon><u-icon v-else  name="heart"  size="28"></u-icon>
+							<u-tag style="margin-top: -20px;margin-left: 20px;" v-if="item.doc_type_id==6" size="mini"  text="租房租地" type="warning" plain></u-tag>
+							<u-tag style="margin-top: -20px;margin-left: 20px;" v-if="item.doc_type_id==7" size="mini"  text="生态农品" type="warning" plain></u-tag>
+							<u-tag style="margin-top: -20px;margin-left: 20px;" v-if="item.doc_type_id==8" size="mini"  text="亲子农旅" type="warning" plain></u-tag>
+							<u-tag style="margin-top: -20px;margin-left: 20px;" v-if="item.doc_type_id==9" size="mini"  text="民宿民居" type="warning" plain></u-tag>
+							<u-tag style="margin-top: -20px;margin-left: 20px;" v-if="item.doc_type_id==10" size="mini"  text="农村美食" type="warning" plain></u-tag>
+							<u-tag style="margin-top: -20px;margin-left: 20px;" v-if="item.doc_type_id==11" size="mini"  text="农村投资" type="warning" plain></u-tag>
+							<u-tag style="margin-top: -20px;margin-left: 20px;" v-if="item.doc_type_id==12" size="mini"  text="定点帮扶" type="warning" plain></u-tag>
+							<u-tag style="margin-top: -20px;margin-left: 20px;" v-if="item.doc_type_id==13" size="mini"  text="名优特新" type="warning" plain></u-tag>
+							</view>
+							<!-- <view style="display: inline-block;"></view> -->
 						<view class="slogan">{{item.doc_creator_name}}</view>
 					</view>
 				</view>
@@ -59,6 +71,7 @@ export default {
 				keyword:'',
 				pageSize:0,
 				limit:9,
+				platform:'',
 				userInfo:{}
 			}
 		},
@@ -68,8 +81,9 @@ export default {
 				this.title = e.title,
 				this.type = e.type|0
 				this.keyword=e.keyword
+				this.platform = e.platform !=undefined ?e.platform:'bbx'
 			}
-			console.log('type',this.type)
+			console.log('type',this.platform)
 		},
 		onShow() {
 			
@@ -109,7 +123,7 @@ export default {
 					order:'desc',
 					offset:3,
 					doc_like:this.keyword,
-					platform:'bbx',
+					platform:this.platform,
 					offset:this.paperList.length
 				}
 				uni.request({
@@ -132,7 +146,7 @@ export default {
 					type:this.type,
 					order:'desc',
 					offset:this.pageSize*this.limit,
-					platform:'bbx',
+					platform:this.platform,
 					doc_like:this.keyword
 				}
 				uni.request({

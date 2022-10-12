@@ -13,7 +13,7 @@ export default {
 				// text: '31'
 			});
 			uni.showTabBarRedDot({
-				index: 3
+				// index: 3
 			});
 		}, 1000);
 	},
